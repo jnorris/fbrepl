@@ -1,0 +1,49 @@
+h1= title
+p Welcome to #{title}
+#fb-root
+#content
+  button(onclick='feed()') Feed
+script
+  console.log('loading');
+  window.fbAsyncInit = function() {
+    console.log('loaded');
+    FB.init({
+      appId: '121893531217298',
+      status: true,
+      cookie: true,
+      xfbml: false
+    });
+  };
+  (function() {
+    var e = document.createElement('script');
+    e.async = true;
+    e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+    //e.src = 'http://static.ak.fbcdn.net/connect/en_US/core.debug.js';
+    document.getElementById('fb-root').appendChild(e);
+  }());
+  
+  function feed() {
+    var url = 'https://www.facebook.com/dialog/feed'
+      + '?app_id=121893531217298'
+      + '&redirect_uri=http://www.example.com/response/';
+    FB.ui(
+      {
+        method: 'feed',
+        name: 'Facebook Dialogs',
+        link: 'https://developers.facebook.com/docs/reference/dialogs/',
+        picture: 'http://fbrell.com/f8.jpg',
+        caption: 'Reference Documentation',
+        description: 'Dialogs provide a simple, consistent interface for applications to interface with users.',
+        message: 'Facebook Dialogs are easy!'
+      },
+      function(response) {
+        if (response && response.post_id) {
+          console.info('Post was published.');
+        } else {
+          console.warn('Post was not published.');
+        }
+      }
+    );
+  }
+
